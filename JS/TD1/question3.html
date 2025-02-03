@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectangle - Calculs</title>
+    <script>
+        function calculerSurface() {
+            let largeur = prompt("Entrez la largeur du rectangle :");
+            let longueur = prompt("Entrez la longueur du rectangle :");
+            let surface = largeur * longueur;
+            alert("La surface du rectangle est : " + surface);
+        }
+
+        function calculerPerimetre() {
+            let largeur = prompt("Entrez la largeur du rectangle :");
+            let longueur = prompt("Entrez la longueur du rectangle :");
+            let perimetre = 2 * (parseFloat(largeur) + parseFloat(longueur));
+            document.getElementById("resultat").innerText = "Le périmètre du rectangle est : " + perimetre;
+        }
+    </script>
+</head>
+<body>
+    <h1>Calcul de la surface et du périmètre d'un rectangle</h1>
+    <button onclick="calculerSurface()">Calculer la surface</button>
+    <button onclick="calculerPerimetre()">Calculer le périmètre</button>
+    <p id="resultat"></p>
+</body>
+</html>

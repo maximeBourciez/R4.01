@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculatrice</title>
+    <script>
+        function calculerExpression() {
+            let expression = document.getElementById("expression").value;
+            try {
+                let resultat = eval(expression);
+                document.getElementById("resultat").innerText = "Résultat : " + resultat;
+            } catch (error) {
+                alert("Expression invalide. Veuillez entrer une expression correcte.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Calculatrice</h1>
+    <form onsubmit="event.preventDefault(); calculerExpression();">
+        <label for="expression">Entrez une expression :</label>
+        <input type="text" id="expression" required>
+        <button type="submit">=</button>
+    </form>
+    <p id="resultat"></p>
+    <a href="#" onclick="calculerExpression(); return false;">Voir le résultat</a>
+</body>
+</html>

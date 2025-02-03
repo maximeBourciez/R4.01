@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectangle - Calculs</title>
+    <script>
+        function calculer() {
+            let largeur = parseFloat(document.getElementById("largeur").value);
+            let longueur = parseFloat(document.getElementById("longueur").value);
+            
+            if (isNaN(largeur) || isNaN(longueur)) {
+                alert("Veuillez entrer des valeurs valides.");
+                return;
+            }
+            
+            let surface = largeur * longueur;
+            let perimetre = 2 * (largeur + longueur);
+            
+            document.getElementById("resultat").innerHTML = 
+                "Surface : " + surface + "<br>" +
+                "Périmètre : " + perimetre;
+        }
+    </script>
+</head>
+<body>
+    <h1>Calcul de la surface et du périmètre d'un rectangle</h1>
+    <form onsubmit="event.preventDefault(); calculer();">
+        <label for="largeur">Largeur :</label>
+        <input type="number" id="largeur" required>
+        <br>
+        <label for="longueur">Longueur :</label>
+        <input type="number" id="longueur" required>
+        <br>
+        <button type="submit">Calculer</button>
+    </form>
+    <p id="resultat"></p>
+</body>
+</html>
