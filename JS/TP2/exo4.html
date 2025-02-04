@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice 4</title>
+</head>
+<body>
+    <form id="calculForm" style="display: flex; flex-direction: column;">
+        <div class="calculs" style="display: flex; flex-direction: row;">
+            <label class="calcul">2 + 3 = </label>
+            <input type="text" name="resultat">
+        </div>
+        <div class="calculs" style="display: flex; flex-direction: row;">
+            <label class="calcul">5 * 4 = </label>
+            <input type="text" name="resultat">
+        </div>
+        <div class="calculs" style="display: flex; flex-direction: row;">
+            <label class="calcul">10 - 6 = </label>
+            <input type="text" name="resultat">
+        </div>
+        <div class="calculs" style="display: flex; flex-direction: row;">
+            <label class="calcul">8 / 2 = </label>
+            <input type="text" name="resultat">
+        </div>
+
+        <button type="submit" id="valider">Valider</button>
+    </form>
+
+    <script>
+        let form = document.getElementById("calculForm");
+
+        form.addEventListener("submit", function(e) {
+            e.preventDefault(); // Empêcher le rechargement de la page
+            let inputs = document.querySelectorAll("input[name='resultat']");
+            let labels = document.querySelectorAll("label.calcul");
+
+            let nbCorrects = 0;
+            for (let i = 0; i < inputs.length; i++) {
+                // Récupérer la valeur de l'input et la convertir en nombre
+                let userAnswer = parseInt(inputs[i].value);
+
+                // Récupérer l'expression mathématique et calculer le résultat attendu
+                let expression = labels[i].textContent.replace("=", "").trim();
+                let resAttendu = eval(expression);
+
+                // Vérifier si la réponse est correcte
+                if (!isNaN(userAnswer) && userAnswer === resAttendu) {
+                    nbCorrects++;
+                    labels[i].style.color = "green"; // Mettre le label en vert
+                } else {
+                    labels[i].style.color = "red"; // Mettre le label en rouge
+                }
+            }
+
+            // Afficher le nombre de bonnes réponses
+            alert("Vous avez " + nbCorrects + " bonnes réponses.");
+        });
+    </script>
+</body>
+</html>

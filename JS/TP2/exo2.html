@@ -39,8 +39,8 @@
     <!-- Appel de SomRec avec prompt -->
     <p id ="promptSomRec"></p>
     <script>
-        let nbSaisi = prompt("Saisissez un nombre entier positif :", 0);
-        document.getElementById("promptSomRec").innerText = "SomRec(" + nbSaisi +") = " + somRec(nbSaisi);
+        let nbSaisi = parseInt(prompt("Saisissez un nombre entier positif :", 0), 10);
+        document.getElementById("promptSomRec").innerText = "SomRec(" + nbSaisi + ") = " + somRec(nbSaisi);
     </script>
 </body>
 </html></html>
