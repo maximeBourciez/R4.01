@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP de JavaScript</title>
+    <script>
+        // Question 1 - Fonction récursive
+        function somRec(i){
+            if(i === 0){
+                return 0;
+            }
+            return i + somRec(i - 1);
+        }
+
+        // Question 2 - Somme via la boucle for
+        function SomFor(i){
+            somme = 0;
+            for(let n = 0; n < i; n++){
+                somme += n;
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Question 1 - Afficher SomRec -->
+    <h1>Welcome to TP2 - exo 2</h1>
+    <p id="somRec"></p>
+    <script>
+        document.getElementById("somRec").innerText = "SomRec(5) = " + somRec(5);
+    </script>
+
+    <!-- Question 2 - Afficher somFor -->
+    <p id="SomFor"></p>
+    <script>
+        document.getElementById("SomFor").innerText = "SomFor(5) = " + somRec(5);
+    </script>
+
+    <!-- Appel de SomRec avec prompt -->
+    <p id ="promptSomRec"></p>
+    <script>
+        let nbSaisi = prompt("Saisissez un nombre entier positif :", 0);
+        document.getElementById("promptSomRec").innerText = "SomRec(" + nbSaisi +") = " + somRec(nbSaisi);
+    </script>
+</body>
+</html></html>
