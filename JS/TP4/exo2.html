@@ -1,0 +1,26 @@
+<html>
+
+<body>
+    <h1>Ma première découverte</h1>
+
+    <div id="map" style="width:400px;height:400px;background:yellow"></div>
+
+    <script>
+        // Cette fonction initialise la carte Google Maps
+        function maCarte() {
+            // Création des options de la carte : centre, niveau de zoom et type de carte
+            var mesOptions = {
+                center: new google.maps.LatLng(51.5, -0.12),  // Position du centre de la carte
+                zoom: 10,  // Niveau de zoom (plus bas = vue large, plus haut = vue rapprochée)
+                mapTypeId: google.maps.MapTypeId.HYBRID  // Type de carte (HYBRID, ROADMAP, SATELLITE, etc.)
+            };
+
+            // Création d'une nouvelle instance de la carte avec les options spécifiées
+            var carte = new google.maps.Map(document.getElementById("map"), mesOptions);
+        }
+    </script>
+    <!-- Inclusion de l'API Google Maps avec la clé API et appel de la fonction maCarte() lors du chargement -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=Cle&callback=maCarte"></script>
+</body>
+
+</html>
