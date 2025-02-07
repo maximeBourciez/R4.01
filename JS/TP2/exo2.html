@@ -4,23 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TP de JavaScript</title>
-    <script>
-        // Question 1 - Fonction récursive
-        function somRec(i){
-            if(i === 0){
-                return 0;
-            }
-            return i + somRec(i - 1);
-        }
-
-        // Question 2 - Somme via la boucle for
-        function SomFor(i){
-            somme = 0;
-            for(let n = 0; n < i; n++){
-                somme += n;
-            }
-        }
-    </script>
 </head>
 <body>
     <!-- Question 1 - Afficher SomRec -->
@@ -38,6 +21,9 @@
 
     <!-- Appel de SomRec avec prompt -->
     <p id ="promptSomRec"></p>
+
+    <script src="exo2.js"></script>
+
     <script>
         let nbSaisi = parseInt(prompt("Saisissez un nombre entier positif :", 0), 10);
         document.getElementById("promptSomRec").innerText = "SomRec(" + nbSaisi + ") = " + somRec(nbSaisi);
