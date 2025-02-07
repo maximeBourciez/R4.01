@@ -12,7 +12,6 @@ class ClientSeeder extends Seeder
      */
     public function run(): void
     {
-        // Insérer 10 clients aléatoires en utilisant la Factory
         Client::factory(10)->create();
     }
 }
