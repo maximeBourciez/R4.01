@@ -4,23 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table de multiplication</title>
-    <script>
-        function afficherTable() {
-            let nombre = parseInt(document.getElementById("nombre").value);
-            let resultat = "";
-            
-            if (isNaN(nombre)) {
-                alert("Veuillez entrer un nombre valide.");
-                return;
-            }
-            
-            for (let i = 1; i <= 10; i++) {
-                resultat += nombre + " x " + i + " = " + (nombre * i) + "<br>";
-            }
-            
-            document.getElementById("resultat").innerHTML = resultat;
-        }
-    </script>
 </head>
 <body>
     <h1>Table de multiplication</h1>
@@ -30,5 +13,7 @@
         <button type="submit">Afficher la table</button>
     </form>
     <p id="resultat"></p>
+
+    <script src="question6.js"></script>
 </body>
 </html>

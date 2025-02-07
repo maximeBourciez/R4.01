@@ -4,17 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculatrice</title>
-    <script>
-        function calculerExpression() {
-            let expression = document.getElementById("expression").value;
-            try {
-                let resultat = eval(expression);
-                document.getElementById("resultat").innerText = "Résultat : " + resultat;
-            } catch (error) {
-                alert("Expression invalide. Veuillez entrer une expression correcte.");
-            }
-        }
-    </script>
 </head>
 <body>
     <h1>Calculatrice</h1>
@@ -25,5 +14,7 @@
     </form>
     <p id="resultat"></p>
     <a href="#" onclick="calculerExpression(); return false;">Voir le résultat</a>
+
+    <script src="question7.js"></script>
 </body>
 </html>
