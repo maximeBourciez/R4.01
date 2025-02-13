@@ -24,3 +24,7 @@ Route::get('/clients', [ClientController::class, 'index'])->name('clients.index'
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+use App\Http\Controllers\SessionController;
+
+Route::get('/sessions/{id}', [SessionController::class, 'show'])->name('sessions.show');
