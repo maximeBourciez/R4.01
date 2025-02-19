@@ -1,14 +1,19 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container mx-auto text-center">
-        <h2 class="text-gray-600 uppercase tracking-widest my-6">The Sauces</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="container text-center mb-4">
+        <h2 class="text-muted text-uppercase fw-light my-4">The Sauces</h2>
+        <div class="row g-4">
             @foreach($sauces as $sauce)
-                <div class="text-center">
-                    <img src="{{ asset('storage/' . $sauce->imageUrl) }}" alt="{{ $sauce->name }}" class="mx-auto h-40">
-                    <h3 class="mt-2 font-semibold">{{ strtoupper($sauce->name) }}</h3>
-                    <p class="text-gray-500">Heat: {{ $sauce->heat }}/10</p>
-                    <p class="text-sm text-gray-400">{{ $sauce->manufacturer }}</p>
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="card h-100 d-flex flex-column">
+                        <!-- Image avec taille fixe -->
+                        <img src="{{ asset('storage/' . $sauce->imageUrl) }}" alt="{{ $sauce->name }}" class="card-img-top" style="height: 200px; width: 100%; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h3 class="card-title mt-2 fw-semibold">{{ strtoupper($sauce->name) }}</h3>
+                            <p class="text-muted">Heat: {{ $sauce->heat }}/10</p>
+                            <p class="text-secondary small">{{ $sauce->manufacturer }}</p>
+                        </div>
+                    </div>
                 </div>
             @endforeach
         </div>

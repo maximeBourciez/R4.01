@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaucesController;
 Route::get('/home', [SaucesController::class, 'index'])->name('home');
 Route::get('/', [SaucesController::class, 'index'])->name('home');
-Route::get('/sauce/add', [SaucesController::class, 'add'])->name('add.sauce');
+Route::get('/sauce/add', [SaucesController::class, 'onAddTry'])->name('add.sauce');
+Route::post('/sauce/store', [SaucesController::class, 'store'])->name('store.sauce');
 
 // Routes pour les utilisateurs
 use App\Http\Controllers\UtilisateursController;

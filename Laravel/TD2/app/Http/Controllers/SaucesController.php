@@ -13,4 +13,10 @@ class SaucesController extends Controller
         $sauces = Sauce::all();
         return view('sauces.index', compact('sauces'));
     }
+
+    // Méthode d'affichage de la vue d'ajout de sauce
+    public function onAddTry()
+    {
+        return view('sauces.create');
+    }
 }
