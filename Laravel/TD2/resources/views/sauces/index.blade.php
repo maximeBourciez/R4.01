@@ -13,6 +13,9 @@
                             <p class="text-muted">Heat: {{ $sauce->heat }}/10</p>
                             <p class="text-secondary small">{{ $sauce->manufacturer }}</p>
                         </div>
+                        <div class="card-footer">
+                            <a href="{{ route('show.sauce', $sauce->idSauce) }}" class="btn btn-primary">Details</a>
+                        </div> 
                     </div>
                 </div>
             @endforeach

@@ -11,6 +11,7 @@ Route::get('/home', [SaucesController::class, 'index'])->name('home');
 Route::get('/', [SaucesController::class, 'index'])->name('home');
 Route::get('/sauce/add', [SaucesController::class, 'onAddTry'])->name('add.sauce');
 Route::post('/sauce/store', [SaucesController::class, 'store'])->name('store.sauce');
+Route::get('/sauce/show/{id}', [SaucesController::class, 'show'])->name('show.sauce');
 
 // Routes pour les utilisateurs
 use App\Http\Controllers\UtilisateursController;

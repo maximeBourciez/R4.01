@@ -19,4 +19,11 @@ class SaucesController extends Controller
     {
         return view('sauces.create');
     }
+
+    // Méthode d'affichage d'une sauce en particulier
+    public function show($id)
+    {
+        $sauce = Sauce::find($id);
+        return view('sauces.show', compact('sauce'));
+    }
 }
