@@ -17,7 +17,7 @@ function afficher() {
 }
 
 // Question 4 - Tableaux
-var tab = [-2, 1, 4];
+var tab = [-2, 4, 1];
 
 // Question 5 - Fonction qui mulitiplie un nombre par tout le tableau 
 function multiplier2(x) {

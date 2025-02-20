@@ -12,3 +12,8 @@ function afficherTitreDocument(){
 function afficherDateModif(){
     document.getElementById("dateModif").innerText = "Dernière date de modification : " + document.lastModified;
 }
+
+// Appeler les fonctions après leur définition
+afficherNavigateur();
+afficherTitreDocument();
+afficherDateModif();
