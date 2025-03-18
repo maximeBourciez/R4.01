@@ -11,17 +11,17 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('user_reacts_sauce', function (Blueprint $table) {
-            $table->string('userId');
+            $table->unsignedBigInteger('userId');
             $table->unsignedBigInteger('sauceId');
 
             // Clé primaire
             $table->primary(['userId', 'sauceId']);
 
             // Clés étrangères
-            $table->foreign('userId')->references('idUtilisateur')->on('user');
-            $table->foreign('sauceId')->references('idSauce')->on('sauce');
+            $table->foreign('userId')->references('id')->on('users');
+            $table->foreign('sauceId')->references('idSauce')->on('sauces');
 
-            $table->boolean('reacted')->nullable();
+            $table->boolean('reaction')->nullable();
         });
     }
 

@@ -12,7 +12,11 @@ Route::get('/dashboard', function () {
 use App\Http\Controllers\SaucesController;
 // Routes pour les sauces
 Route::get('/', [SaucesController::class, 'index'])->name('sauces.index');
+Route::get('/sauces', [SaucesController::class, 'index'])->name('sauces.index');
 Route::get('/sauces/create', [SaucesController::class, 'create'])->name('sauces.create');
+Route::post('/sauces/store', [SaucesController::class, 'store'])->name('sauces.store');
+Route::get('/sauce/{id}', [SaucesController::class, 'show'])->name('sauces.show');
+
 
 
 
@@ -27,3 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'index'])->name('dashboard');
 });
 require __DIR__.'/auth.php';
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

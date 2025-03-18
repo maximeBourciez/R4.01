@@ -10,66 +10,66 @@ class SauceSeeder extends Seeder
     public function run(): void
     {
         // Récupérer les IDs des utilisateurs
-        $userIds = DB::table('users')->pluck('idUtilisateur')->toArray();
+        $userIds = DB::table('users')->pluck('id')->toArray();
 
+        // Vérifier qu'il y a au moins un utilisateur
+        if (empty($userIds)) {
+            echo "Aucun utilisateur trouvé. Veuillez ajouter des utilisateurs avant d'exécuter ce seeder.\n";
+            return;
+        }
+
+        // Définition des sauces
         $sauces = [
             [
-                'userId' => $userIds[0],
                 'name' => 'Ghost Pepper Sauce',
                 'manufacturer' => 'Haunted Heat',
                 'description' => 'Une sauce extrêmement piquante à base de piments ghost pepper, parfaite pour les amateurs de sensations fortes',
                 'mainPepper' => 'Ghost Pepper (Bhut Jolokia)',
-                'imageUrl' => 'sauces/ghost-pepper.jpg',
+                'imageUrl' => 'storage/sauces/ghost-pepper.jpg',
                 'heat' => 9,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'userId' => $userIds[1],
                 'name' => 'Sweet Chipotle',
                 'manufacturer' => 'Smoky Heaven',
                 'description' => 'Un mélange parfait de piments chipotle fumés et de miel local, offrant un équilibre entre douceur et chaleur',
                 'mainPepper' => 'Chipotle (Jalapeño fumé)',
-                'imageUrl' => 'sauces/sweet-chipotle.jpg',
+                'imageUrl' => 'storage/sauces/sweet-chipotle.jpg',
                 'heat' => 5,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'userId' => $userIds[2],
                 'name' => 'Habanero Mango',
                 'manufacturer' => 'Tropical Spice',
                 'description' => 'Une sauce exotique qui combine la douceur de la mangue avec le piquant de l\'habanero',
                 'mainPepper' => 'Habanero Orange',
-                'imageUrl' => 'sauces/habanero-mango.jpg',
+                'imageUrl' => 'storage/sauces/habanero-mango.jpg',
                 'heat' => 7,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'userId' => $userIds[0],
                 'name' => 'Citrus Scorpion',
                 'manufacturer' => 'Exotic Heat',
                 'description' => 'Une explosion d\'agrumes combinée au piquant intense du piment scorpion',
                 'mainPepper' => 'Trinidad Scorpion',
-                'imageUrl' => 'sauces/citrus-scorpion.jpg',
+                'imageUrl' => 'storage/sauces/citrus-scorpion.jpg',
                 'heat' => 8,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
             [
-                'userId' => $userIds[1],
                 'name' => 'Jalapeño Verde',
                 'manufacturer' => 'Verde Sabor',
                 'description' => 'Une sauce verte fraîche à base de jalapeños frais et d\'herbes aromatiques',
                 'mainPepper' => 'Jalapeño Vert',
-                'imageUrl' => 'sauces/jalapeno-verde.jpg',
+                'imageUrl' => 'storage/sauces/jalapeno-verde.jpg',
                 'heat' => 4,
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
         ];
 
+        // Insérer les sauces avec des userId aléatoires
+        foreach ($sauces as &$sauce) {
+            $sauce['userId'] = $userIds[array_rand($userIds)]; // Sélectionne un ID utilisateur au hasard
+            $sauce['created_at'] = now();
+            $sauce['updated_at'] = now();
+        }
+
+        // Insertion dans la base de données
         DB::table('sauces')->insert($sauces);
     }
 }
