@@ -26,9 +26,15 @@ class SaucesController extends Controller
     // Affiche une sauce en particulier
     public function show($id)
     {
-        $sauce = Sauce::findOrFail($id);
+        $sauce = Sauce::find($id);
+
+        if (!$sauce) {
+            return abort(404); // Gérer le cas où la sauce n'existe pas
+        }
+
         return view('sauces.show', compact('sauce'));
     }
+
 
     // Enregistre une nouvelle sauce
     public function store(Request $request)

@@ -18,6 +18,10 @@ Route::post('/sauces/store', [SaucesController::class, 'store'])->name('sauces.s
 Route::get('/sauce/{id}', [SaucesController::class, 'show'])->name('sauces.show');
 
 
+// Routes pour une sauce unique
+Route::get('sauces/react/{id}/{reaction}', [SaucesController::class, 'like'])->name('sauce.react');
+
+
 
 
 Route::middleware('auth')->group(function () {

@@ -10,7 +10,7 @@ class Sauce extends Model
     protected $table = 'sauces';
 
     // Clé primaire
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'idSauce';
 
     // Pas de timestamps
     public $timestamps = false;
