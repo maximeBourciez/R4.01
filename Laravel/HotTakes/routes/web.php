@@ -16,7 +16,9 @@ Route::get('/sauces', [SaucesController::class, 'index'])->name('sauces.index');
 Route::get('/sauces/create', [SaucesController::class, 'create'])->name('sauces.create');
 Route::post('/sauces/store', [SaucesController::class, 'store'])->name('sauces.store');
 Route::get('/sauce/{id}', [SaucesController::class, 'show'])->name('sauces.show');
-
+Route::get('/sauces/edit/{id}', [SaucesController::class, 'edit'])->name('sauces.edit');
+Route::put('/sauces/update/{id}', [SaucesController::class, 'update'])->name('sauces.update');
+Route::delete('/sauces/destroy/{id}', [SaucesController::class, 'destroy'])->name('sauces.destroy');
 
 // Routes pour une sauce unique
 Route::get('sauces/react/{id}/{reaction}', [SaucesController::class, 'like'])->name('sauce.react');

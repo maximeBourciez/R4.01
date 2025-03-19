@@ -17,7 +17,7 @@ class Sauce extends Model
 
     // Nom des colonnes
     protected $fillable = [
-        'user_id',
+        'userId',
         'name',
         'manufacturer',
         'description',
