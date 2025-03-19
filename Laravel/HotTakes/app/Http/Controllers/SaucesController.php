@@ -136,5 +136,33 @@ class SaucesController extends Controller
 
         return redirect()->route('sauces.index')->with('success', 'Sauce modifiée avec succès!');
     }
+
+
+    // Méthode pour supprimer une sauce
+    public function destroy($id)
+    {
+        // Vérifier l'authentification de l'utilisateur et que la sauce lui appartient
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You need to be logged in to delete a sauce.');
+        }
+        else if(Auth::user()->id != Sauce::find($id)->userId){
+            return redirect()->route('sauces.index')->with('error', 'You are not allowed to delete this sauce.');
+        }
+
+        // Récupération de la sauce
+        $sauce = Sauce::find($id);
+
+        if (!$sauce) {
+            return abort(404);
+        }
+
+        // Suppression de l'image
+        Storage::disk('public')->delete(str_replace('storage/', '', $sauce->imageUrl));
+
+        // Suppression de la sauce
+        $sauce->delete();
+
+        return redirect()->route('sauces.index')->with('success', 'Sauce supprimée avec succès!');
+    }
     
 }
