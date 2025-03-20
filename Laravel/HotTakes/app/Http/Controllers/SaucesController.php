@@ -165,4 +165,5 @@ class SaucesController extends Controller
         return redirect()->route('sauces.index')->with('success', 'Sauce supprimée avec succès!');
     }
     
+    
 }

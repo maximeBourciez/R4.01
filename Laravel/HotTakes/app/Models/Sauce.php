@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Sauce extends Model
 {
+    use HasApiTokens;
+
     // Nom de la table
     protected $table = 'sauces';
 
@@ -38,3 +41,4 @@ class Sauce extends Model
     }
 
 }
+
