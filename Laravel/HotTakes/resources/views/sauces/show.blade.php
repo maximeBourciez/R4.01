@@ -6,7 +6,7 @@
 <div class="container">
     <div class="d-flex flex-row">
         <div class="d-flex flex-column col-md-8">
-            <img src="{{  asset($sauce->imageUrl) }}" alt="{{ $sauce->imageUrl }}" style="height: 450px; object-fit: cover;">
+            <img src="{{ asset('storage/' . $sauce->imageUrl) }}" alt="{{ $sauce->imageUrl }}" style="height: 450px; object-fit: cover;">
             @if ($sauce->userId === Auth::id() && Auth::check())
                 <div class="d-flex flex-row gap-1">
                     <a href="{{ route('sauces.edit', $sauce->idSauce) }}" class="btn btn-primary mt-3 mr-2">Modifier</a>

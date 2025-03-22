@@ -25,7 +25,7 @@ class SauceSeeder extends Seeder
                 'manufacturer' => 'Haunted Heat',
                 'description' => 'Une sauce extrêmement piquante à base de piments ghost pepper, parfaite pour les amateurs de sensations fortes',
                 'mainPepper' => 'Ghost Pepper (Bhut Jolokia)',
-                'imageUrl' => 'storage/sauces/ghost-pepper.jpg',
+                'imageUrl' => 'sauces/ghost-pepper.jpg',
                 'heat' => 9,
             ],
             [
@@ -60,7 +60,64 @@ class SauceSeeder extends Seeder
                 'imageUrl' => 'sauces/jalapeno-verde.jpg',
                 'heat' => 4,
             ],
+            [
+                'name' => 'Carolina Reaper Fury',
+                'manufacturer' => 'Inferno Bites',
+                'description' => 'Une sauce terrifiante à base de Carolina Reaper, réservée aux plus courageux',
+                'mainPepper' => 'Carolina Reaper',
+                'imageUrl' => 'sauces/carolina-reaper.jpg',
+                'heat' => 10,
+            ],
+            [
+                'name' => 'Garlic Serrano',
+                'manufacturer' => 'Savory Fire',
+                'description' => 'Une sauce relevée à l\'ail et aux piments serrano, idéale pour relever vos plats',
+                'mainPepper' => 'Serrano',
+                'imageUrl' => 'sauces/garlic-serrano.jpg',
+                'heat' => 6,
+            ],
+            [
+                'name' => 'Thai Dragon Fire',
+                'manufacturer' => 'Asian Heat',
+                'description' => 'Une sauce inspirée de la cuisine thaïlandaise, alliant piment thai et lait de coco',
+                'mainPepper' => 'Piment Thai',
+                'imageUrl' => 'sauces/thai-dragon-fire.jpg',
+                'heat' => 7,
+            ],
+            [
+                'name' => 'Pineapple Habanero',
+                'manufacturer' => 'Tropical Spice',
+                'description' => 'Une explosion de saveurs tropicales avec de l\'ananas sucré et du piment habanero',
+                'mainPepper' => 'Habanero Rouge',
+                'imageUrl' => 'sauces/pineapple-habanero.jpg',
+                'heat' => 6,
+            ],
+            [
+                'name' => 'Smoked Ancho BBQ',
+                'manufacturer' => 'BBQ Master',
+                'description' => 'Une sauce BBQ douce et fumée avec des piments ancho et une touche de mélasse',
+                'mainPepper' => 'Ancho (Poblano séché)',
+                'imageUrl' => 'sauces/smoked-ancho.jpg',
+                'heat' => 3,
+            ],
+            [
+                'name' => 'Wasabi Jalapeño',
+                'manufacturer' => 'Fusion Heat',
+                'description' => 'Un mélange explosif de wasabi et de jalapeño pour un piquant unique',
+                'mainPepper' => 'Jalapeño',
+                'imageUrl' => 'sauces/wasabi-jalapeno.jpg',
+                'heat' => 5,
+            ],
+            [
+                'name' => 'Blueberry Scorpion',
+                'manufacturer' => 'Exotic Heat',
+                'description' => 'Une sauce fruitée avec des myrtilles et du piment scorpion pour une touche sucrée et brûlante',
+                'mainPepper' => 'Trinidad Scorpion',
+                'imageUrl' => 'sauces/blueberry-scorpion.jpg',
+                'heat' => 8,
+            ],
         ];
+        
 
         // Insérer les sauces avec des userId aléatoires
         foreach ($sauces as &$sauce) {
