@@ -3,12 +3,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sauce;
-use App\Models\User;
+use App\Models\UserReactsSauce;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 
 class SaucesController extends Controller
@@ -29,14 +28,34 @@ class SaucesController extends Controller
     // Affiche une sauce en particulier
     public function show($id)
     {
+        // Récupérer la sauce avec l'ID
         $sauce = Sauce::find($id);
 
+        // Gérer le cas où la sauce n'existe pas
         if (!$sauce) {
             return abort(404); // Gérer le cas où la sauce n'existe pas
         }
 
-        return view('sauces.show', compact('sauce'));
+        // Récupérer l'utilisateur connecté
+        $userId = auth()->id();
+        $userReaction = null;
+
+        // Vérifier si l'utilisateur a déjà réagi à cette sauce
+        if ($userId) {
+            $userReaction = UserReactsSauce::where('userId', $userId)
+                ->where('sauceId', $id)
+                ->first();
+        }
+
+        // Retourner la vue avec les données nécessaires : sauce, réactions, et l'utilisateur connecté
+        return view('sauces.show', [
+            'sauce' => $sauce,
+            'likes' => UserReactsSauce::where('sauceId', $id)->where('reaction', 1)->count(),
+            'dislikes' => UserReactsSauce::where('sauceId', $id)->where('reaction', 0)->count(),
+            'userReaction' => $userReaction
+        ]);
     }
+
 
 
     // Enregistre une nouvelle sauce
@@ -46,7 +65,7 @@ class SaucesController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Vous devez être connecté pour ajouter une sauce.');
         }
-    
+
         // Validation des données
         $request->validate([
             'name' => 'required|string|max:255',
@@ -56,14 +75,14 @@ class SaucesController extends Controller
             'imageUrl' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'heat' => 'required|integer|min:1|max:10',
         ]);
-    
+
         // Gestion de l'upload d'image
         $fichier = $request->file('imageUrl');
         $imageUrl = $fichier->store('sauces', 'public');
-    
+
         // Création de la sauce
         Sauce::create([
-            'userId' => Auth::id(), 
+            'userId' => Auth::id(),
             'name' => $request->input('name'),
             'manufacturer' => $request->input('manufacturer'),
             'description' => $request->input('description'),
@@ -73,7 +92,7 @@ class SaucesController extends Controller
             'likes' => 0,
             'dislikes' => 0,
         ]);
-    
+
         return redirect()->route('sauces.index')->with('success', 'Sauce ajoutée avec succès!');
     }
 
@@ -109,8 +128,7 @@ class SaucesController extends Controller
         // Vérifier l'authentification de l'utilisateur et que la sauce lui appartient
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Vous devez être connecté pour modifier une sauce.');
-        }
-        else if(Auth::id() != $sauce->userId){
+        } else if (Auth::id() != $sauce->userId) {
             return redirect()->route('sauces.index')->with('error', 'Vous n\'êtes pas autorisé à modifier cette sauce.');
         }
 
@@ -131,10 +149,10 @@ class SaucesController extends Controller
                 $oldImagePath = str_replace(asset('storage/'), '', $sauce->imageUrl);
                 Storage::disk('public')->delete($oldImagePath);
             }
-            
-            $imageName = time().'.'.$request->imageUrl->extension();
+
+            $imageName = time() . '.' . $request->imageUrl->extension();
             $imagePath = $request->imageUrl->storeAs('sauces', $imageName, 'public');
-            $imageUrl = asset('storage/'.$imagePath);
+            $imageUrl = asset('storage/' . $imagePath);
         } else {
             $imageUrl = $sauce->imageUrl;
         }
@@ -166,8 +184,7 @@ class SaucesController extends Controller
         // Vérifier l'authentification de l'utilisateur et que la sauce lui appartient
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Vous devez être connecté pour supprimer une sauce.');
-        }
-        else if(Auth::id() != $sauce->userId){
+        } else if (Auth::id() != $sauce->userId) {
             return redirect()->route('sauces.index')->with('error', 'Vous n\'êtes pas autorisé à supprimer cette sauce.');
         }
 
@@ -182,4 +199,53 @@ class SaucesController extends Controller
 
         return redirect()->route('sauces.index')->with('success', 'Sauce supprimée avec succès!');
     }
+
+
+
+
+    // Méthoide pour ajouter une réaction à une sauce
+    public function react(int $id, int $reaction)
+    {
+        // Vérifier si la réaction est valide (1 pour like, 0 pour dislike)
+        if (!in_array($reaction, [0, 1])) {
+            return response()->json(['error' => 'La réaction doit être 0 ou 1'], 400);
+        }
+
+        $userId = auth()->id(); // Récupérer l'utilisateur connecté
+
+        // Vérifier si l'utilisateur a déjà réagi à cette sauce
+        $reactionRecord = UserReactsSauce::where('userId', $userId)
+            ->where('sauceId', $id)
+            ->first();
+
+        if ($reactionRecord) {
+            // Si l'utilisateur veut supprimer sa réaction (il clique sur le même bouton)
+            if ($reactionRecord->reaction === $reaction) {
+                UserReactsSauce::where('userId', $userId)
+                                ->where('sauceId', $id)
+                                ->delete();
+                return redirect()->route('sauces.show', $id)
+                    ->with('message', 'Réaction supprimée');
+            }
+
+            // Sinon, on met à jour la réaction (like <-> dislike)
+            $reactionRecord->reaction = $reaction;
+            UserReactsSauce::where('userId', $userId)
+                ->where('sauceId', $id)
+                ->update(['reaction' => $reaction]);
+            return redirect()->route('sauces.show', $id)
+                ->with('message', 'Réaction mise à jour');
+        }
+
+        // Ajouter une nouvelle réaction
+        UserReactsSauce::create([
+            'userId' => $userId,
+            'sauceId' => $id,
+            'reaction' => $reaction,
+        ]);
+
+        return redirect()->route('sauces.show', $id)
+            ->with('message', 'Réaction ajoutée');
+    }
+
 }

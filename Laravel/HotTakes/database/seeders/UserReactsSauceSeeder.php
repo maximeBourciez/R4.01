@@ -29,7 +29,7 @@ class UserReactsSauceSeeder extends Seeder
                 $userReactsSauce[] = [
                     'userId' => $userId,
                     'sauceId' => $sauceId,
-                    'reaction' => rand(-1, 1), // -1 = dislike, 0 = neutre, 1 = like
+                    'reaction' => rand(0, 1), // 0 = dislike, 1 = like
                 ];
             }
         }

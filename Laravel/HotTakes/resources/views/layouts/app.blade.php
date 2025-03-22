@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,8 +17,9 @@
     <!-- Scripts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
@@ -25,10 +27,12 @@
                 <!-- Left Side -->
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('sauces.index') ? 'active' : '' }}" href="{{ route('sauces.index') }}">{{ __('All Sauces') }}</a>
+                        <a class="nav-link {{ Request::routeIs('sauces.index') ? 'active' : '' }}"
+                            href="{{ route('sauces.index') }}">{{ __('All Sauces') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('sauces.create') ? 'active' : '' }}" href="{{ route('sauces.create') }}">{{ __('Add sauce') }}</a>
+                        <a class="nav-link {{ Request::routeIs('sauces.create') ? 'active' : '' }}"
+                            href="{{ route('sauces.create') }}">{{ __('Add sauce') }}</a>
                     </li>
                 </ul>
 
@@ -52,14 +56,14 @@
                         @endif
                     @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -76,15 +80,34 @@
         <main class="py-4">
             @yield('content')
         </main>
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        <!-- Toast container -->
+        <div id="toast-container" aria-live="polite" aria-atomic="true"
+            class="toast-container position-fixed bottom-0 end-0 p-3">
+            <!-- Toasts will be dynamically inserted here -->
         </div>
-    @endif
+
+        <!-- Scripts pour activer les toasts -->
+        <script>
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    let toast = new bootstrap.Toast(document.createElement('div'));
+                    toast._element.classList.add('toast', 'bg-danger', 'text-white');
+                    toast._element.innerHTML = '<div class="toast-body">{{ $error }}</div>';
+                    document.getElementById('toast-container').appendChild(toast._element);
+                    toast.show();
+                @endforeach
+            @endif
+
+                @if (session('message'))
+                    let toast = new bootstrap.Toast(document.createElement('div'));
+                    toast._element.classList.add('toast', 'bg-success', 'text-white');
+                    toast._element.innerHTML = '<div class="toast-body">{{ session('message') }}</div>';
+                    document.getElementById('toast-container').appendChild(toast._element);
+                    toast.show();
+                @endif
+        </script>
+
     </div>
 </body>
+
 </html>

@@ -37,7 +37,7 @@
             <input type="file" name="imageUrl" id="imageUrl" class="form-control">
             @if($sauce->imageUrl)
                 <p>Current Image:</p>
-                <img src="{{ asset($sauce->imageUrl) }}" alt="Sauce Image" class="img-thumbnail" width="150">
+                <img src="{{ asset('storage /' . $sauce->imageUrl) }}" alt="Sauce Image" class="img-thumbnail" width="150">
             @endif
         </div>
 

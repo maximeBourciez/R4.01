@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <div class="container">
         <h1 class="mb-4">Create a New Sauce</h1>
         <form action="{{ route('sauces.store') }}" method="POST" enctype="multipart/form-data">
@@ -33,7 +34,14 @@
             <!-- Image Upload -->
             <div class="mb-3">
                 <label for="imageUrl" class="form-label">Image</label>
-                <input type="file" name="imageUrl" id="imageUrl" class="form-control" required>
+                <input type="file" name="imageUrl" id="imageUrl" class="form-control" accept="image/*"
+                    onchange="previewImage(event)">
+
+                <!-- Conteneur pour afficher l'aperçu -->
+                <div id="imagePreviewContainer" class="mt-3" style="display: none;">
+                    <p>Aperçu :</p>
+                    <img id="imagePreview" src="" alt="Aperçu de l'image" class="img-thumbnail" width="150">
+                </div>
             </div>
 
             <!-- Spiciness Level -->
@@ -52,5 +60,24 @@
             <button type="submit" class="btn btn-primary">Create Sauce</button>
         </form>
     </div>
+
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const previewContainer = document.getElementById("imagePreviewContainer");
+            const previewImage = document.getElementById("imagePreview");
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = "block";
+                };
+
+                reader.readAsDataURL(input.files[0]); // Lire le fichier et générer une URL pour l'aperçu
+            }
+        }
+    </script>
 
 @endsection
