@@ -13,7 +13,7 @@
                 <div class="card shadow-sm w-100 text-align-center cardLink">
                     <a href="{{ route('sauces.show', $sauce->idSauce) }}" class="stretched-link text-decoration-none d-flex flex-column" style="height: 100%;">
                         <div class="card-body d-flex flex-column text-align-center align-items-center justify-content-between  flex-grow-1">
-                            <img src="{{ $sauce->imageUrl }}" class="card-img-top" alt="{{ $sauce->name }}">
+                            <img src="{{ asset('storage/' . $sauce->imageUrl) }}" class="card-img-top" alt="{{ $sauce->name }}">
                             <div class="d-flex flex-column text-align-center align-items-center justify-content-between text-dark">
                                 <h5 class="card-title">{{ $sauce->name }}</h5>
                                 <p class="">Heat : {{ $sauce->heat }} /10</p>

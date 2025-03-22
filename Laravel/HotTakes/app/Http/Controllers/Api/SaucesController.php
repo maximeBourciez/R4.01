@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sauce;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class SaucesController extends Controller
 {
@@ -53,14 +54,24 @@ class SaucesController extends Controller
             ], 422);
         }
 
-        $sauce = Sauce::create($request->all());
-        
         // Stockage de l'image
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $sauce->imageUrl = asset('storage/' . $imagePath);
-            $sauce->save();
+            $fichier = $request->file('imageUrl');
+            $imageUrl = $fichier->store('sauces', 'public');
         }
+
+        $sauce = Sauce::create([ 
+            'name' => $request->input('name'),
+            'manufacturer' => $request->input('manufacturer'),
+            'description' => $request->input('description'),
+            'mainPepper' => $request->input('mainPepper'),
+            'imageUrl' => $imageUrl,
+            'heat' => $request->input('heat'),
+            'likes' => 0,
+            'dislikes' => 0,
+        ]);
+        
+        
 
         return response()->json([
             'success' => true,

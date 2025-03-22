@@ -33,7 +33,7 @@
             <!-- Image Upload -->
             <div class="mb-3">
                 <label for="imageUrl" class="form-label">Image</label>
-                <input type="file" name="imageUrl" id="imageUrl" class="form-control">
+                <input type="file" name="imageUrl" id="imageUrl" class="form-control" required>
             </div>
 
             <!-- Spiciness Level -->
@@ -52,15 +52,5 @@
             <button type="submit" class="btn btn-primary">Create Sauce</button>
         </form>
     </div>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
 @endsection

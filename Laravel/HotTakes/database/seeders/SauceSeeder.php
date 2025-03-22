@@ -33,7 +33,7 @@ class SauceSeeder extends Seeder
                 'manufacturer' => 'Smoky Heaven',
                 'description' => 'Un mélange parfait de piments chipotle fumés et de miel local, offrant un équilibre entre douceur et chaleur',
                 'mainPepper' => 'Chipotle (Jalapeño fumé)',
-                'imageUrl' => 'storage/sauces/sweet-chipotle.jpg',
+                'imageUrl' => 'sauces/sweet-chipotle.jpg',
                 'heat' => 5,
             ],
             [
@@ -41,7 +41,7 @@ class SauceSeeder extends Seeder
                 'manufacturer' => 'Tropical Spice',
                 'description' => 'Une sauce exotique qui combine la douceur de la mangue avec le piquant de l\'habanero',
                 'mainPepper' => 'Habanero Orange',
-                'imageUrl' => 'storage/sauces/habanero-mango.jpg',
+                'imageUrl' => 'sauces/habanero-mango.jpg',
                 'heat' => 7,
             ],
             [
@@ -49,7 +49,7 @@ class SauceSeeder extends Seeder
                 'manufacturer' => 'Exotic Heat',
                 'description' => 'Une explosion d\'agrumes combinée au piquant intense du piment scorpion',
                 'mainPepper' => 'Trinidad Scorpion',
-                'imageUrl' => 'storage/sauces/citrus-scorpion.jpg',
+                'imageUrl' => 'sauces/citrus-scorpion.jpg',
                 'heat' => 8,
             ],
             [
@@ -57,7 +57,7 @@ class SauceSeeder extends Seeder
                 'manufacturer' => 'Verde Sabor',
                 'description' => 'Une sauce verte fraîche à base de jalapeños frais et d\'herbes aromatiques',
                 'mainPepper' => 'Jalapeño Vert',
-                'imageUrl' => 'storage/sauces/jalapeno-verde.jpg',
+                'imageUrl' => 'sauces/jalapeno-verde.jpg',
                 'heat' => 4,
             ],
         ];

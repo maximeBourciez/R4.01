@@ -6,6 +6,9 @@ use App\Models\Sauce;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 
 class SaucesController extends Controller
@@ -39,11 +42,11 @@ class SaucesController extends Controller
     // Enregistre une nouvelle sauce
     public function store(Request $request)
     {
-        // Check if the user is authenticated
+        // Vérifie si l'utilisateur est connecté
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You need to be logged in to add a sauce.');
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour ajouter une sauce.');
         }
-
+    
         // Validation des données
         $request->validate([
             'name' => 'required|string|max:255',
@@ -53,15 +56,14 @@ class SaucesController extends Controller
             'imageUrl' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'heat' => 'required|integer|min:1|max:10',
         ]);
-
+    
         // Gestion de l'upload d'image
-        $imageName = time().'.'.$request->imageUrl->extension();
-        $imagePath = $request->imageUrl->storeAs('sauces', $imageName, 'public');
-        $imageUrl = asset('storage/'.$imagePath);
-
-        // Création et enregistrement de la sauce
+        $fichier = $request->file('imageUrl');
+        $imageUrl = $fichier->store('sauces', 'public');
+    
+        // Création de la sauce
         Sauce::create([
-            'userId' => Auth::user()->id, 
+            'userId' => Auth::id(), 
             'name' => $request->input('name'),
             'manufacturer' => $request->input('manufacturer'),
             'description' => $request->input('description'),
@@ -71,9 +73,11 @@ class SaucesController extends Controller
             'likes' => 0,
             'dislikes' => 0,
         ]);
-
+    
         return redirect()->route('sauces.index')->with('success', 'Sauce ajoutée avec succès!');
     }
+
+
 
     // Méthode pour afficher le formulaire d'édition d'une sauce
     public function edit($id)
@@ -84,18 +88,30 @@ class SaucesController extends Controller
             return abort(404);
         }
 
+        // Vérifier que l'utilisateur est le propriétaire de la sauce
+        if (Auth::id() != $sauce->userId) {
+            return redirect()->route('sauces.index')->with('error', 'Vous n\'êtes pas autorisé à modifier cette sauce.');
+        }
+
         return view('sauces.edit', compact('sauce'));
     }
 
     // Méthode pour mettre à jour une sauce
     public function update(Request $request, $id)
     {
+        // Récupération de la sauce
+        $sauce = Sauce::find($id);
+
+        if (!$sauce) {
+            return abort(404);
+        }
+
         // Vérifier l'authentification de l'utilisateur et que la sauce lui appartient
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You need to be logged in to edit a sauce.');
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour modifier une sauce.');
         }
-        else if(Auth::user()->id != Sauce::find($id)->userId){
-            return redirect()->route('sauces.index')->with('error', 'You are not allowed to edit this sauce.');
+        else if(Auth::id() != $sauce->userId){
+            return redirect()->route('sauces.index')->with('error', 'Vous n\'êtes pas autorisé à modifier cette sauce.');
         }
 
         // Validation des données
@@ -104,19 +120,18 @@ class SaucesController extends Controller
             'manufacturer' => 'required|string|max:255',
             'description' => 'required|string',
             'mainPepper' => 'required|string|max:255',
-            'imageUrl' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'imageUrl' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'heat' => 'required|integer|min:1|max:10',
         ]);
 
-        // Récupération de la sauce
-        $sauce = Sauce::find($id);
-
-        if (!$sauce) {
-            return abort(404);
-        }
-
         // Gestion de l'upload d'image
         if ($request->hasFile('imageUrl')) {
+            // Supprimer l'ancienne image si elle existe
+            if ($sauce->imageUrl) {
+                $oldImagePath = str_replace(asset('storage/'), '', $sauce->imageUrl);
+                Storage::disk('public')->delete($oldImagePath);
+            }
+            
             $imageName = time().'.'.$request->imageUrl->extension();
             $imagePath = $request->imageUrl->storeAs('sauces', $imageName, 'public');
             $imageUrl = asset('storage/'.$imagePath);
@@ -141,14 +156,6 @@ class SaucesController extends Controller
     // Méthode pour supprimer une sauce
     public function destroy($id)
     {
-        // Vérifier l'authentification de l'utilisateur et que la sauce lui appartient
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You need to be logged in to delete a sauce.');
-        }
-        else if(Auth::user()->id != Sauce::find($id)->userId){
-            return redirect()->route('sauces.index')->with('error', 'You are not allowed to delete this sauce.');
-        }
-
         // Récupération de la sauce
         $sauce = Sauce::find($id);
 
@@ -156,14 +163,23 @@ class SaucesController extends Controller
             return abort(404);
         }
 
+        // Vérifier l'authentification de l'utilisateur et que la sauce lui appartient
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour supprimer une sauce.');
+        }
+        else if(Auth::id() != $sauce->userId){
+            return redirect()->route('sauces.index')->with('error', 'Vous n\'êtes pas autorisé à supprimer cette sauce.');
+        }
+
         // Suppression de l'image
-        Storage::disk('public')->delete(str_replace('storage/', '', $sauce->imageUrl));
+        if ($sauce->imageUrl) {
+            $imagePath = str_replace(asset('storage/'), '', $sauce->imageUrl);
+            Storage::disk('public')->delete($imagePath);
+        }
 
         // Suppression de la sauce
         $sauce->delete();
 
         return redirect()->route('sauces.index')->with('success', 'Sauce supprimée avec succès!');
     }
-    
-    
 }
